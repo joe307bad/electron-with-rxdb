@@ -1,29 +1,33 @@
-# Modern and Minimal Electron + React Starter Kit
-_Electron, React, Webpack -- Modern and up-to-date, with a handful of quality of life features included_
-
-I made this starter kit as most boilerplates were either out-of-date, heavy handed, or enforced a structure on me that I just didnt like.
-With a very select assortment of modules, this starter kit is designed to get you up and running very quickly, and to let you easily drop in your own structure and tools on top of it.
-The basic structure of `src/` is intentionally minimal to make it easier to allow you to put your own twist on how you like things laid out.
-
-Production builds babel-minify is used, and ES2015/ES6 transpilation is provided -- As modern node and chromium versions support 99%+ of the ES6 feature set, I feel those steps are unnecessary.
-
-If you like this project, check out [enhanced-electron-react-boilerplate](https://github.com/pbarbiero/enhanced-electron-react-boilerplate) which is this project with my take on additional modules (photon, redux, less, css modules etc) and my personal project structure (based on the redux ducks proposal) I suggest you give it a look if you want less of a minimalistic take on my starter kit.
-
-### To get started:
-* Run `npm install`
-
-##### Development
-* Run `npm run dev` to start webpack-dev-server. Electron will launch automatically after compilation.
-
-##### Production
-_You have two options, an automatic build or two manual steps_
-
-###### One Shot
-* Run `npm run package` to have webpack compile your application into `dist/bundle.js` and `dist/index.html`, and then an electron-packager run will be triggered for the current platform/arch, outputting to `builds/`
-
-###### Manual
-_Recommendation: Update the "postpackage" script call in package.json to specify parameters as you choose and use the `npm run package` command instead of running these steps manually_
-* Run `npm run build` to have webpack compile and output your bundle to `dist/bundle.js`
-* Then you can call electron-packager directly with any commands you choose
-
-If you want to test the production build (In case you think Babili might be breaking something) after running `npm run build` you can then call `npm run prod`. This will cause electron to load off of the `dist/` build instead of looking for the webpack-dev-server instance. Electron will launch automatically after compilation.
+# Electron with rxdb
+Specifically to recreate [this issue](https://github.com/pubkey/rxdb/issues/1886)
+## Steps I took to make this repo:
+1. I started with [this minimal electron boilerplate](https://github.com/pbarbiero/basic-electron-react-boilerplate)
+2. Copied and pasted the main parts of `main.js` and `database.js` from the [electron example](https://github.com/pubkey/rxdb/tree/master/examples/electron) from the rxdb
+3. Ran `yarn dev`
+4. Recieved the following error:
+    ```
+    yarn run v1.17.3
+$ webpack-dev-server --hot --host 0.0.0.0 --config=./webpack.dev.config.js
+⚠ ｢wds｣: The `setup` option is deprecated and will be removed in v4. Please update your config to use `before`
+ℹ ｢wds｣: Project is running at http://0.0.0.0:8080/
+ℹ ｢wds｣: webpack output is served from /
+ℹ ｢wds｣: Content not from webpack is served from /Users/joe307bad/Source/electron-with-rxdb/dist
+Since version 8.4.0 the module 'express-pouchdb' is not longer delivered with RxDB.
+You can install it with 'npm install express-pouchdb'
+creating hero-collection..
+start server
+(node:16185) UnhandledPromiseRejectionWarning: TypeError: ExpressPouchDB is not a function
+    at RxDatabaseBase.spawnServer [as server] (/Users/joe307bad/Source/electron-with-rxdb/node_modules/rxdb/dist/lib/plugins/server.js:163:18)
+    at createDb (/Users/joe307bad/Source/electron-with-rxdb/main.js:80:12)
+    at processTicksAndRejections (internal/process/task_queues.js:85:5)
+    at async App.<anonymous> (/Users/joe307bad/Source/electron-with-rxdb/main.js:100:3)
+(node:16185) UnhandledPromiseRejectionWarning: TypeError: ExpressPouchDB is not a function
+    at RxDatabaseBase.spawnServer [as server] (/Users/joe307bad/Source/electron-with-rxdb/node_modules/rxdb/dist/lib/plugins/server.js:163:18)
+    at createDb (/Users/joe307bad/Source/electron-with-rxdb/main.js:80:12)
+    at processTicksAndRejections (internal/process/task_queues.js:85:5)
+    at async App.<anonymous> (/Users/joe307bad/Source/electron-with-rxdb/main.js:100:3)
+(node:16185) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). (rejection id: 1)
+(node:16185) UnhandledPromiseRejectionWarning: Unhandled promise rejection. This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). (rejection id: 1)
+(node:16185) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
+(node:16185) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
+    ``` 
